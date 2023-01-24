@@ -1,0 +1,91 @@
+class Solution {
+    public String minWindow(String s, String t) {
+        if(t.length()>s.length()){
+            return "";
+        }
+      
+        HashMap<Character,Integer> mapt = new HashMap<>();
+        for(int i=0;i<t.length();i++){
+            int a = mapt.getOrDefault(t.charAt(i),0);
+            mapt.put(t.charAt(i),a+1);
+        }
+      
+        HashMap<Character,Integer> mapt1 = new HashMap<>(mapt);
+         HashMap<Character,Integer> maps = new HashMap<>();
+        String windw = "";
+        boolean ty =false;
+        int end =0;
+        for(int i=0;i<s.length();i++){
+            if(mapt.size()==0){
+                break;
+            }
+            int fe = maps.getOrDefault(s.charAt(i),0);
+            maps.put(s.charAt(i),fe+1);
+            if(mapt.containsKey(s.charAt(i))){
+                 windw += s.charAt(i);
+                 int feq = mapt.get(s.charAt(i));
+                 if(feq==1){
+                     mapt.remove(s.charAt(i));
+                 }
+                 else{
+                     mapt.put(s.charAt(i),feq-1);
+                 }
+                ty = true;
+            }
+            else if(ty){
+                if(mapt.size()!=0){
+                    windw += s.charAt(i);
+                }
+                else{
+                    break;
+                }
+            }
+            end++;
+        }
+        if(mapt.size()!=0){
+            return "";
+        }
+        int start = 0;
+        
+  
+
+
+
+while(mapt1.getOrDefault(s.charAt(start),0)<maps.get(s.charAt(start)) && start<s.length()){
+                int feq = maps.get(s.charAt(start));
+                 if(feq==1){
+                     maps.remove(s.charAt(start));
+                 }
+                 else{
+                     maps.put(s.charAt(start),feq-1);
+                 }
+                 start++;
+             }
+             if(windw.length()>(end-start)){
+             windw = s.substring(start,end);
+             }
+
+
+        while(end<s.length()){
+             int fe = maps.getOrDefault(s.charAt(end),0);
+             maps.put(s.charAt(end),fe+1);
+             
+             while(mapt1.getOrDefault(s.charAt(start),0)<maps.get(s.charAt(start)) && start<s.length()){
+                int feq = maps.get(s.charAt(start));
+                 if(feq==1){
+                     maps.remove(s.charAt(start));
+                 }
+                 else{
+                     maps.put(s.charAt(start),feq-1);
+                 }
+                 start++;
+             }
+             if(windw.length()>(end-start+1)){
+             windw = s.substring(start,end+1);
+             }
+         
+             end++;
+        }
+        return windw;
+    }
+}
