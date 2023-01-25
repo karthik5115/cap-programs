@@ -1,0 +1,21 @@
+class Solution {
+    public int minDepth(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+        int lf = minDepth(root.left);
+        int rt = minDepth(root.right);
+        if(lf!=0 && rt!=0){
+            return Math.min(lf,rt)+1;
+        }
+        if(lf!=0){
+            return lf+1;
+        }
+        if(rt!=0){
+            return rt+1;
+        }
+        return 1;
+    }
+}
+
+//....
