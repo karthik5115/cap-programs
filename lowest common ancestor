@@ -21,3 +21,7 @@ class Solution {
     }
 }
 // traverse from down;
+// if both childs donot have p||q then null 
+// one child then that child
+//both childs then root
+// LEETCODE
