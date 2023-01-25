@@ -1,0 +1,23 @@
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null){
+            return null;
+        }
+        if(root == p || root == q){
+            return root;
+        }
+        TreeNode lf = lowestCommonAncestor(root.left,p,q);
+        TreeNode rh = lowestCommonAncestor(root.right,p,q);
+        if(lf!=null && rh!=null){
+            return root;
+        }
+        if(lf!=null){
+            return lf;
+        }
+        if(rh!=null){
+            return rh;
+        }
+        return null;
+    }
+}
+// traverse from down;
