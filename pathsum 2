@@ -1,0 +1,36 @@
+class Solution {
+    int length = 0;
+    List<List<Integer>> ans = new ArrayList<>();
+    List<Integer> temp = new ArrayList<>();
+    public boolean path(TreeNode root, int a){
+         if(root==null){
+             return false;
+         }
+         if(root.left==null && root.right==null){
+            if(length+root.val==a){
+                temp.add(root.val);
+                List<Integer> temp1 = new ArrayList<>(temp);
+                System.out.println(temp1);
+                ans.add(temp1);
+                temp.remove(temp.size()-1);
+                return true;
+            }
+            return false;
+         }
+         length+=root.val;
+         temp.add(root.val);
+         boolean lf = path(root.left,a);
+         boolean rt = path(root.right,a);
+         temp.remove(temp.size()-1);
+         length -=root.val;
+         if(lf==false && rt==false){
+           return false;
+         }
+         return true;
+    }
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+    path(root,targetSum);
+    return ans;
+    }
+}
+//same as pathsum;
