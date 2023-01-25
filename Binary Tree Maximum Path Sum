@@ -1,0 +1,23 @@
+class Solution {
+    int Maxsum = Integer.MIN_VALUE;
+    public int pathsum(TreeNode root){
+        if(root==null){
+            return 0;
+        }
+        int lf = pathsum(root.left);
+        int rh = pathsum(root.right);
+        if(lf+rh+root.val>Maxsum){
+            Maxsum = lf+rh+root.val;
+        }
+        if(Math.max(lf,rh)+root.val<=0){
+            return 0;
+        }
+        return Math.max(lf,rh)+root.val;
+
+    }
+    public int maxPathSum(TreeNode root) {
+             pathsum(root);
+             return Maxsum;
+    }
+}
+//->at each node returns the how much it gains to sum (if gain<=0 then gain be 0) and updatesmaxsum  like kadanes algorithm.
