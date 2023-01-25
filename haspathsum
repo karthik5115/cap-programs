@@ -20,3 +20,5 @@ class Solution {
         return true;
     }
 }
+// check only at leaf;
+// if both childs doesnot leads then sum-root;
