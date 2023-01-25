@@ -89,3 +89,5 @@ while(mapt1.getOrDefault(s.charAt(start),0)<maps.get(s.charAt(start)) && start<s
         return windw;
     }
 }
+
+// comparing t and s hashmaps by using a sliding window.
