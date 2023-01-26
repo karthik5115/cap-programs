@@ -1,0 +1,26 @@
+class Solution {
+    public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+        if(root1==null && root2==null){
+            return null;
+        }
+        if(root1==null){
+            return root2;
+        }
+        if(root2==null){
+            return root1;
+        }
+        root1.val = root1.val+root2.val;
+        TreeNode lf = mergeTrees(root1.left,root2.left);
+        TreeNode rt = mergeTrees(root1.right,root2.right);
+        if(lf!=null){
+            root1.left = lf;
+        }
+        if(rt!=null){
+            root1.right=rt;
+        }
+        return root1;
+    }
+}
+// merege them in 1st binary tree
+// if 2nd binary has null whereas 1st has node then replace them (vice versa)
+//post order traversal.
