@@ -1,0 +1,47 @@
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(root==null){
+            return res;
+        }
+        Stack<TreeNode> stk1 = new Stack<>();
+        Stack<TreeNode> rev_stk1 = new Stack<>();
+        stk1.push(root);
+       int k=0;
+        while(stk1.size()!=0 || rev_stk1.size()!=0){
+            List<Integer> arr = new ArrayList<>();
+        if(k%2==0){
+            int len = stk1.size();
+            for(int i=0;i<len;i++){
+             TreeNode temp = stk1.pop();
+             arr.add(temp.val);
+             if(temp.left!=null){
+                 rev_stk1.push(temp.left);
+             }
+             if(temp.right!=null){
+                 rev_stk1.push(temp.right);
+             }
+            }
+        }
+        else{
+            int len = rev_stk1.size();
+            for(int i=0;i<len;i++){
+             TreeNode temp = rev_stk1.pop();
+             arr.add(temp.val);
+             if(temp.right!=null){
+                 stk1.push(temp.right);
+             }
+             if(temp.left!=null){
+                 stk1.push(temp.left);
+             }
+            }
+        }
+        res.add(arr);
+        k++;
+        }
+return res;
+        
+    }
+}
+
+// use two stacks to alternate the answer
