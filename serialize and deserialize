@@ -1,0 +1,110 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if(root==null){
+            return "$";
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        String res="";
+        q.offer(root);
+        res+=Integer.toString(root.val)+" ";
+        while(q.size()!=0){
+            int len = q.size();
+            for(int i=0;i<len;i++){
+                TreeNode temp = q.poll();
+                if(temp.left!=null){
+                    q.offer(temp.left);
+                    res+=Integer.toString(temp.left.val)+" ";
+                }
+                else{
+                    res+="$ ";
+                }
+                if(temp.right!=null){
+                    q.offer(temp.right);
+                    res+=Integer.toString(temp.right.val)+" ";
+                }
+                else {
+                     res+="$ ";
+                }
+            }
+        }
+        // for(int i =res.length()-1;i>=0;i--){
+        //     if(res.charAt(i)=='$'){
+        //         res=res.substring(0,i);
+        //     }
+        //     else{
+        //         break;
+        //     }
+        // }
+        return res;
+
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        System.out.println(data);
+        if (data=="$"){
+            return null;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        int i=0;
+        String root_val = "";
+        while(data.charAt(i)!=' '){
+             root_val += data.charAt(i);
+             i++;
+        }
+        i++;
+        TreeNode root = new TreeNode(Integer.parseInt(root_val));
+        q.offer(root);
+        while(i<data.length()){
+            int len = q.size();
+            for(int j=0;j<len;j++){
+            TreeNode q_temp=q.poll(); 
+
+
+            String val = "";
+            while(data.charAt(i)!=' '){
+             val += data.charAt(i);
+             i++;
+        }
+        i++;
+        if(val.equals("$")==false){
+
+            TreeNode temp = new TreeNode(Integer.parseInt(val));
+            q.offer(temp);
+            q_temp.left = temp;
+        }
+
+
+
+            String val1 = "";
+            while(data.charAt(i)!=' '){
+             val1 += data.charAt(i);
+             i++;
+        }
+        i++;
+        if(!val1.equals("$")){
+            TreeNode temp = new TreeNode(Integer.parseInt(val1));
+            q.offer(temp);
+            q_temp.right = temp;
+        }
+
+
+
+        }
+       }
+       return root;
+    }
+}
+// "$" to indicate null 
+// serialize and deserialize both use queue.
