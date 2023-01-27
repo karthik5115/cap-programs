@@ -1,0 +1,107 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        class bNode{
+            TreeNode t;
+            int row;
+            int colmn;
+            public bNode(TreeNode t,int row,int colmn){
+                this.t=t;
+                this.row=row;
+                this.colmn = colmn;
+            }
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        TreeMap<Integer,List<bNode>> map = new TreeMap<>();
+        Queue<bNode> q = new LinkedList<>();
+        if(root==null){
+            return res;
+        }
+        bNode root_b = new bNode(root,0,0);
+        q.offer(root_b);
+        while(q.size()!=0){
+            int length = q.size();
+            int prev_node_colomn=0;
+            for(int i=0;i<length;i++){
+                bNode temp = q.poll();
+                List<bNode> map_list = map.getOrDefault(temp.colmn,new ArrayList<>());
+                if(map_list.size()==0){
+                    map_list.add(temp);
+                }
+                else{
+                    bNode last = map_list.get(map_list.size()-1);
+                   boolean ty =true;
+                   int inn=1;
+                    while(last.row==temp.row && last.colmn==temp.colmn && last.t.val>temp.t.val){
+                            inn++;
+                            if(map_list.size()>1){
+                              last = map_list.get(map_list.size()-inn);
+                              
+                            }
+                            else{
+                                break;
+                            }
+                            
+                    }
+                    
+                        map_list.add(map_list.size()-(inn-1),temp);
+                    
+                }
+                map.put(temp.colmn,map_list);
+                
+                if(temp.t.left!=null){
+                     bNode curr = new bNode(temp.t.left,temp.row+1,temp.colmn-1);
+                     q.offer(curr);
+                }
+                if(temp.t.right!=null){
+                bNode curr = new bNode(temp.t.right,temp.row+1,temp.colmn+1);
+                q.offer(curr);
+                }
+
+            }
+        }
+        for(List<bNode> srk : map.values()){
+            List<Integer> aark = new ArrayList<>();
+            for(bNode i:srk){
+                  aark.add(i.t.val);
+                  if(i.t.val==101){
+                      System.out.println("101row "+i.row+" colm "+i.colmn);
+                  }
+                   if(i.t.val==51){
+                      System.out.println("51row "+i.row+" colm "+i.colmn);
+                  }
+                   if(i.t.val==58){
+                      System.out.println("58row "+i.row+" colm "+i.colmn);
+                  }
+                   if(i.t.val==71){
+                      System.out.println("71row "+i.row+" colm "+i.colmn);
+                  }
+                   if(i.t.val==26){
+                      System.out.println("7row "+i.row+" colm "+i.colmn);
+                  }
+            }
+            res.add(aark);
+            
+        }
+        return res;
+    }
+}
+
+// create new class like linkedlistnode  in that memebrs are treenode, our requirmnets in this question row,colomn.
+// update row and coloumn for evry node in queue< new class>.
+// if(same row and same colomn) then sort them.
+// hashmap<int,new_node> ....
