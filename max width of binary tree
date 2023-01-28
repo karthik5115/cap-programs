@@ -1,0 +1,50 @@
+class Solution {
+    public int widthOfBinaryTree(TreeNode root) {
+        class bNode{
+            TreeNode t;
+            int dist;
+            public bNode(TreeNode t,int dist){
+                this.t=t;
+                this.dist=dist;
+            }
+        }
+        if(root==null){
+            return 0;
+        }
+        bNode rootb = new bNode(root,1);
+        Queue<bNode> q = new LinkedList<>();
+        q.offer(rootb);
+        int max_width = 0;
+        while(q.size()!=0){
+            int len = q.size();
+            int left_first=0, right_last=0;
+            for(int i=0;i<len;i++){
+                bNode temp = q.poll();
+                System.out.println(temp.t.val +" "+temp.dist);
+                if(i==0){
+                    left_first=temp.dist;
+                }
+                if(i==len-1){
+                    right_last = temp.dist;
+                }
+                if(temp.t.left!=null){
+                    bNode temp1 = new bNode(temp.t.left,2*temp.dist);
+                    q.offer(temp1);
+                }
+                if(temp.t.right!=null){
+                    bNode temp1 = new bNode(temp.t.right,2*temp.dist-1);
+                    q.offer(temp1);
+                }
+            }
+            int width = left_first-right_last+1;
+            max_width = Math.max(max_width,width);
+        }
+return max_width;
+    }
+}
+// create new class to store treenode and dist(element_index at that level);
+             1
+            / \ 
+          2     1            // for left 2*dist
+         / \   /  \          // for right 2*dist-1
+        4  3   2   1
