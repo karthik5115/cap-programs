@@ -1,0 +1,66 @@
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root==null){
+            return null;
+        }
+        TreeNode parent = null,curr=root;
+        while(curr!=null){
+            if(curr.val==key){
+                break;
+            }
+            else if(curr.val>key){
+                parent=curr;
+                curr = curr.left;
+            }
+            else{
+                parent=curr;
+                curr = curr.right;
+            }
+        }
+        if(curr==null){
+            return root;
+        }
+        if(curr.left!=null && curr.right!=null){
+            parent =curr;
+            TreeNode temp = curr;
+            curr=curr.left;
+            while(curr.right!=null){
+                parent = curr;
+                curr = curr.right;
+            }
+            int temp1 = curr.val;
+            if(parent.val>curr.val){
+                curr.val = curr.val-1;
+            }
+            else{
+                curr.val = curr.val+1;
+            }
+            temp.val = temp1;
+        }
+                if(root.val==key){
+        if(root.left!=null){
+            return root.left;
+        }
+        else{
+            return root.right;
+        }
+        }
+        if(parent.val>curr.val){
+            if(curr.left!=null){
+                parent.left = curr.left;
+            }
+            else{
+                parent.left=curr.right;
+            }
+        }
+        else{
+            if(curr.left!=null){
+                parent.right = curr.left;
+            }
+            else{
+                parent.right=curr.right;
+            }
+        }
+        return root;
+    }
+}
