@@ -1,0 +1,49 @@
+
+class Solution
+{
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    static ArrayList<Integer> topView(Node root)
+    {
+        // add your code
+        class bNode{
+            Node t ;
+            int colmn;
+            bNode(Node t,int colmn){
+                this.t=t;
+                this.colmn = colmn;
+            }
+        }
+        ArrayList<Integer> arr = new ArrayList<>();
+        if(root==null){
+            return arr;
+        }
+        TreeMap<Integer,Integer> map = new TreeMap<>();  
+        Queue<bNode> q = new LinkedList<>();
+        bNode rootb = new bNode(root,0);
+        q.offer(rootb);
+        while(q.size()!=0){
+            int len = q.size();
+            for(int i=0;i<len;i++){
+                bNode temp = q.poll();
+                if(!map.containsKey(temp.colmn)){
+                    map.put(temp.colmn,temp.t.data);
+                }
+                if(temp.t.left!=null){
+                    bNode temp1 = new bNode(temp.t.left,temp.colmn-1);
+                    q.offer(temp1);
+                }
+                if(temp.t.right!=null){
+                    bNode temp1 = new bNode(temp.t.right,temp.colmn+1);
+                    q.offer(temp1);
+                }
+            }
+        }
+        for(Integer i:map.values()){
+            arr.add(i);
+        }
+        return arr;
+    }
+}
+
+// first element at every colmn.
