@@ -1,0 +1,29 @@
+// geek for geeks
+class Tree {
+    int findCeil(Node root, int key) {
+        if (root == null) return -1;
+        // Code here
+        int ceil = Integer.MAX_VALUE;
+        while(root!=null){
+            if(ceil>root.data && key<=root.data){
+                ceil=root.data;
+            }
+            if(root.data==key){
+                return root.data;
+            }
+            else if(root.data>key){
+                root=root.left;
+            }
+            else{
+                root=root.right;
+            }
+        }
+        if(ceil == Integer.MAX_VALUE){
+            return -1;
+        }
+        return ceil;
+        
+    }
+}
+
+// keep track of min number greater than key....
