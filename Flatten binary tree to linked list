@@ -1,0 +1,19 @@
+class Solution {
+    public void flatten(TreeNode root) {
+        flat(root);
+        for(int i=1;i<arr.size();i++){
+            root.left =null;
+            root.right = new TreeNode(arr.get(i));
+            root=root.right;
+        }
+    }
+    ArrayList<Integer> arr = new ArrayList<>();
+    void flat(TreeNode root){
+        if(root==null){
+            return;
+        }
+         arr.add(root.val);
+         flat(root.left);
+         flat(root.right);
+    }
+}
