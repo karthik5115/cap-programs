@@ -1,0 +1,24 @@
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i=0;i<inorder.length;i++){
+            map.put(inorder[i],i);
+        }
+        int curr []  = {0};
+    return construct(preorder,inorder,map,0,preorder.length-1,0,inorder.length-1,curr);
+    }
+    TreeNode construct(int [] pree ,int [] inn,HashMap<Integer,Integer> map,int ps,int pe,int is,int ie,int [] curr){
+        if(curr[0]==pree.length || pe<ps || ie<is){
+            return null;
+        }
+        TreeNode node = new TreeNode(pree[curr[0]++]);
+        int index = map.get(node.val);
+        node .left = construct(pree,inn,map,ps+1,ps+(index-is),is,index-1,curr);
+        node.right = construct(pree,inn,map,ps+(index-is)+1,pe,index+1,ie,curr);
+        return node;
+    }
+
+}
+
+
+// curr is call by reference so that we use array instead of int
