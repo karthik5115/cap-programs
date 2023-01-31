@@ -1,0 +1,28 @@
+class BSTIterator {
+    Stack<TreeNode> stk = new Stack<>();
+    public BSTIterator(TreeNode root) {
+        while(root!=null){
+        stk.push(root);
+        root=root.left;
+        } 
+    }
+    
+    public int next() {
+        TreeNode node = stk.pop();
+        TreeNode curr = node.right;
+        while(curr!=null){
+        stk.push(curr);
+        curr=curr.left;
+        }
+        return node.val;
+    }
+    
+    public boolean hasNext() {
+        if(stk.size()==0){
+            return false;
+        }
+        return true;
+    }
+}
+
+// next function pops the least element and add next elemnt to stack.
