@@ -1,0 +1,74 @@
+
+class Solution {
+
+class BSTIterator {
+    Stack<TreeNode> stk = new Stack<>();
+    public BSTIterator(TreeNode root,boolean supr) {
+        while(root!=null){
+        stk.push(root);
+        if(supr){
+            root=root.left;
+        }
+        else{
+            root=root.right;
+        }
+        } 
+    }
+    public int next(boolean supr) {
+        TreeNode node = stk.pop();
+        TreeNode curr = null;
+        if(supr){
+            curr = node.right;
+        }
+        else{
+             curr = node.left;
+        }
+       
+        while(curr!=null){
+        stk.push(curr);
+        if(supr){
+            curr=curr.left;
+        }
+        else{
+            curr=curr.right;
+        }
+        }
+        return node.val;
+    }
+    
+    public boolean hasNext() {
+        if(stk.size()==0){
+            return false;
+        }
+        return true;
+    }
+}
+    public boolean findTarget(TreeNode root, int k) {
+        if(root==null){
+            return false;
+        }
+        BSTIterator small = new BSTIterator(root,true);
+        BSTIterator large = new BSTIterator(root,false);
+        int a = small.next(true);
+        int b = large.next(false);
+        while(small.hasNext() && large.hasNext() && a!=b){
+        System.out.println(a+" "+b+" "+(a+b));
+        if(a+b==k){
+            return true;
+        }
+        else if(a+b>k){
+            if(large.hasNext()){
+                b = large.next(false);
+            }
+        }
+        else{
+            if(small.hasNext()){
+                a = small.next(true);
+            }
+        }
+        }
+        return false;
+    }
+}
+
+// find smallest number and largest number in tree then there sum==k stop or > (find nextlarge)  or (find nextsmall)  ny using bst iterator.
