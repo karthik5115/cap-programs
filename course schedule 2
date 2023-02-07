@@ -1,0 +1,45 @@
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        HashMap<Integer,ArrayList<Integer>> map = new HashMap<>();
+        for(int i=0;i<prerequisites.length;i++){
+            ArrayList<Integer> k = map.getOrDefault(prerequisites[i][0],new ArrayList<Integer>());
+            k.add(prerequisites[i][1]);
+            map.put(prerequisites[i][0],k);
+        }
+     int [] visited = new int[numCourses];
+     int [] completed = new int[numCourses];
+     ArrayList<Integer> ans = new ArrayList<>();
+     boolean ty=true;
+     for(int i=0;i<visited.length;i++){
+        if(completed[i]==0){
+            ty = ty && dfs(i,map,visited,completed,ans);
+        }
+     }
+     if(ty==false){
+         ans.clear();
+     }
+     int [] res = new int[ans.size()];
+     for(int i=0;i<ans.size();i++){
+           res[i] = ans.get(i);
+     }
+    return res;
+    }
+    public boolean dfs(int i,HashMap<Integer,ArrayList<Integer>> map,int [] visited,int []completed,ArrayList<Integer> ans){
+        if(visited[i]==0){
+            visited[i]=1;
+            boolean ty = true;
+            if(map.containsKey(i)){
+                for(Integer k:map.get(i)){
+                    ty = ty && dfs(k,map,visited,completed,ans);
+                }
+            }
+                completed[i]=1;
+                ans.add(i);
+                return ty;
+            }
+            else if(completed[i]==0){
+                return false;
+            }
+        return true;
+        }
+    }
