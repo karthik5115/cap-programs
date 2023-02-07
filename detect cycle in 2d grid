@@ -1,0 +1,43 @@
+class Solution {
+    public boolean containsCycle(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+    int visited [][] = new int[m][n];
+    boolean ty =false; 
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(visited[i][j]==0){
+               ty = ty || dfs(i,j,m,n,grid,visited,i,j);
+            }
+        }
+    }
+        return ty;
+
+    }
+    boolean dfs(int i,int j,int m,int n,char[][] grid,int[][] visited,int pi,int pj){
+        if(i>=0 && i<m && j>=0 && j<n){
+            
+            if(visited[i][j]==1 && grid[i][j]==grid[pi][pj]){
+                return true;
+            }
+            else if(grid[i][j]==grid[pi][pj] && visited[i][j]==0){
+                visited[i][j]=1;
+            boolean a= false,b=false,c=false,d=false;
+            if(i!=pi || j-1!=pj){
+                a = dfs(i,j-1,m,n,grid,visited,i,j);
+            }
+            if(i-1!=pi || j!=pj){
+                b =   dfs(i-1,j,m,n,grid,visited,i,j);
+            }
+            if(i+1!=pi || j!=pj){
+                c =    dfs(i+1,j,m,n,grid,visited,i,j);
+            }
+            if(i!=pi || j+1!=pj){
+                d =   dfs(i,j+1,m,n,grid,visited,i,j);
+            }
+             return a || b || c || d;
+             }
+        }
+        return false;
+    }
+}
