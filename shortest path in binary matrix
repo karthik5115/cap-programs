@@ -1,0 +1,51 @@
+class Solution {
+    public int shortestPathBinaryMatrix(int[][] grid) {
+        if(grid[0][0]==1){
+            return -1;
+        }
+        class pair implements Comparable<pair>{
+            int dist;
+            int i;
+            int j;
+            public pair(int dist,int i,int j){
+                this.dist = dist;
+                this.i = i;
+                this.j = j;
+            }
+            public int compareTo(pair a){
+                return dist-a.dist;
+            }
+        }
+
+        PriorityQueue<pair> q = new PriorityQueue<>();
+        int [][] visited = new int[grid.length][grid[0].length];
+        q.offer(new pair(1,0,0));
+        while(q.size()!=0){
+           pair  curr = q.poll();
+           int row = curr.i;
+           int colm = curr.j;
+           if(visited[row][colm]==0){
+             visited[row][colm]=curr.dist; 
+           if(row ==grid.length && colm == grid[0].length){
+               break;
+           }
+           int [] rowset = {0,-1,1};
+           int [] colmset = {0,-1,1};
+           for(int m:rowset){
+               for(int n:colmset){
+                    if(row+m==row && colm+n==colm){continue;}
+                    if(row+m>=0 && colm+n>=0 && row+m<grid.length && colm+n<grid[0].length){
+                        if(grid[row+m][colm+n]==grid[row][colm] && visited[row+m][colm+n]==0){
+                            q.offer(new pair(curr.dist+1,row+m,colm+n));
+                        }
+                    }
+               }
+           }
+        }
+        }
+        if(visited[grid.length-1][grid[0].length-1]==0){
+            return -1;
+        }
+        return visited[grid.length-1][grid[0].length-1];
+    }
+}
