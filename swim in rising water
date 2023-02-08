@@ -1,0 +1,54 @@
+class Solution {
+    public int swimInWater(int[][] grid) {
+        class pair implements Comparable<pair>{
+            int time;
+            int row;
+            int colm;
+            pair(int time,int row,int colm){
+                this.time=time;
+                this.row = row;
+                this.colm = colm;
+            }
+            public int compareTo(pair a){
+                return time-a.time;
+            }
+        }
+        PriorityQueue<pair> q = new PriorityQueue<>();
+        int m = grid.length,n = grid[0].length;
+        int [][] visited = new int[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                 visited[i][j]=-1;
+            }
+        }
+        q.offer(new pair(grid[0][0],0,0));
+        while(q.size()!=0){
+            pair curr = q.poll();
+            int i = curr.row,j=curr.colm;
+            if(i==m-1 && j==n-1){
+                return curr.time;
+            }
+            int [] off8 = {0,-1,1};
+            if(visited[i][j]==-1){
+                visited[i][j]=curr.time;
+            for(int x:off8){
+                for(int y:off8){
+                    if(Math.abs(x) == Math.abs(y)){
+                        continue;
+                    }
+                    if(i+x>=0 && j+y>=0 && i+x<m && j+y<n){
+                        if(grid[i+x][j+y]<=grid[i][j] && visited[i+x][j+y]==-1){
+                            grid[i+x][j+y]=curr.time;
+                            q.offer(new pair(curr.time,i+x,j+y));
+                        }
+                        else if(visited[i+x][j+y]==-1){
+                            q.offer(new pair(grid[i+x][j+y],i+x,j+y));
+                        }
+                    }
+                }
+            }
+            }
+        }
+       return visited[m-1][n-1]; 
+    }
+}
